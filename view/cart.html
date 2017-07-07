@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>cart</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+</head>
+<body>
+  <div class="container">
+  <h1>カートの中身</h1>
+  <table>
+    <tr><th>名前</th><th>価格(円)</th></tr>{{if ne .Amount 0}}
+    {{range .ItemList}}<tr><td>{{.Name}}</td><td>{{.Price}}</td></tr>{{end}}
+    <tr><th>合計金額</th><td>{{.TotalPrice}}</td></tr>
+  </table>
+  <form action="/purchase" method="POST">
+    <button type="submit" name="purchase">購入する</button>
+  </form>{{else}}
+    <tr><td>商品がありません</td><td></td></tr>
+  </table>
+  <form action="/catalog" method="GET">
+    <button type="submit" name="purchase">商品一覧に戻る</button>
+  </form>{{end}}
+  </div>
+</body>
+</html>

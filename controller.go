@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strings"
 )
 
 // GenerateRouter bind handlers to a multiplexer
@@ -39,6 +40,23 @@ func catalogHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func cartHandler(w http.ResponseWriter, r *http.Request) {
+	itemKeys := []string{}
+	if v := r.FormValue("item"); v != "" {
+		itemKeys = append(itemKeys, v)
+	}
+	if cookie, err := r.Cookie("cart"); err == nil {
+		itemKeys = append(itemKeys, strings.Split(cookie.Value, ",")...)
+	}
+
+	cart := Cart{ItemList: []Item{}}
+	for _, itemKey := range itemKeys {
+		if item, ok := catalog.ItemMap[itemKey]; ok {
+			cart.addItem(item)
+		}
+	}
+
+	http.SetCookie(w, &http.Cookie{Name: "cart", Value: strings.Join(itemKeys, ",")})
+	generateTemplate(w, "cart", cart)
 }
 
 func purchaseHandler(w http.ResponseWriter, r *http.Request) {

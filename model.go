@@ -20,3 +20,16 @@ type Item struct {
 type Catalog struct {
 	ItemMap map[string]Item
 }
+
+// Cart has purchasing items
+type Cart struct {
+	ItemList   []Item
+	Amount     int
+	TotalPrice int
+}
+
+func (c *Cart) addItem(item Item) {
+	c.ItemList = append(c.ItemList, item)
+	c.TotalPrice += item.Price
+	c.Amount++
+}
