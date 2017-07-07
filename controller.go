@@ -60,4 +60,6 @@ func cartHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func purchaseHandler(w http.ResponseWriter, r *http.Request) {
+	http.SetCookie(w, &http.Cookie{Name: "cart", Value: ""})
+	generateTemplate(w, "purchase", nil)
 }
