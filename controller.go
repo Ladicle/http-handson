@@ -16,6 +16,8 @@ func GenerateRouter() http.Handler {
 	return mux
 }
 
+var catalog = NewCatalog()
+
 func generateTemplate(w http.ResponseWriter, tplName string, data interface{}) {
 	tpl, err := template.ParseFiles(fmt.Sprintf("view/%s.html", tplName))
 	if err != nil {
@@ -33,6 +35,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func catalogHandler(w http.ResponseWriter, r *http.Request) {
+	generateTemplate(w, "catalog", catalog)
 }
 
 func cartHandler(w http.ResponseWriter, r *http.Request) {

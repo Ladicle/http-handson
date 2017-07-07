@@ -1,0 +1,25 @@
+<html>
+<head>
+  <title>catalog</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+</head>
+<body>
+  <h1>商品一覧</h1>
+  <form action="/cart" method="POST">
+    <table>
+      <tr>
+        <th>名前</th><th>価格(円)</th><th></th>
+      </tr>
+      {{range $key, $value := .ItemMap}}
+      <tr>
+        <td>{{$value.Name}}</td>
+        <td>{{$value.Price}}</td>
+        <td><button type="submit" name="item" value="{{$value.ID}}">カートに追加</button></td>
+      </tr>
+      {{end}}
+    </table>
+  </form>
+</body>
+</html>
