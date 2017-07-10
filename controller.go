@@ -20,12 +20,9 @@ func GenerateRouter() http.Handler {
 var catalog = NewCatalog()
 
 func generateTemplate(w http.ResponseWriter, tplName string, data interface{}) {
-	tpl, err := template.ParseFiles(fmt.Sprintf("view/%s.html", tplName))
-	if err != nil {
-		w.WriteHeader(500)
-		return
-	}
-	if err = tpl.Execute(w, data); err != nil {
+	asset := MustAsset(fmt.Sprintf("view/%s.html", tplName))
+	tpl := template.Must(template.New(tplName).Parse(string(asset)))
+	if err := tpl.Execute(w, data); err != nil {
 		w.WriteHeader(500)
 		return
 	}
